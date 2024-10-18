@@ -1,0 +1,9 @@
+/db.sqlite3
+/media
+venv/
+*/migrations/*
+*/__pycache__/*
+app/api/__pycache__/
+
+# No ignorar!
+!*/migrations/__init__.pys
