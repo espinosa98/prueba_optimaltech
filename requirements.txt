@@ -14,3 +14,4 @@ pytz==2019.3
 python-dotenv==0.20.0
 pdfkit==1.0.0
 psycopg2-binary==2.8.6
+gunicorn==20.1.0
