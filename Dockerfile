@@ -1,26 +1,24 @@
-# Usa una imagen base de Python
-FROM python:3.10-slim
+# Usamos una imagen base de Python 3.6
+FROM python:3.6-slim
 
-# Establece el directorio de trabajo
+# Configuramos la variable de entorno para evitar errores de buffering
+ENV PYTHONUNBUFFERED 1
+
+# Establecemos el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos necesarios
+# Copiamos el archivo de requisitos y lo instalamos
 COPY requirements.txt .
 
-# Instala virtualenv
-RUN pip install --no-cache-dir virtualenv
+# Instalamos las dependencias necesarias
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Crea un entorno virtual
-RUN virtualenv venv
-
-# Activa el entorno virtual y luego instala los requisitos
-RUN . venv/bin/activate && pip install --no-cache-dir -r requirements.txt
-
-# Copia el resto del código de la aplicación
+# Copiamos todo el código del proyecto
 COPY . .
 
-# Expone el puerto de la aplicación
+# Exponemos el puerto 8000 para que el servidor de Django sea accesible
 EXPOSE 8000
 
-# Ejecuta las migraciones y luego inicia el servidor
-CMD ["sh", "-c", ". venv/bin/activate && python manage.py makemigrations &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Ejecutamos las migraciones y luego corremos el servidor de Django
+CMD ["python", "manage.py", "runserver"]
