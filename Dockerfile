@@ -4,6 +4,10 @@ FROM python:3.6-slim
 # Configuramos la variable de entorno para evitar errores de buffering
 ENV PYTHONUNBUFFERED 1
 
+# Crear ambiente virtual
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 # Establecemos el directorio de trabajo
 WORKDIR /app
 
@@ -21,4 +25,4 @@ COPY . .
 EXPOSE 8000
 
 # Ejecutamos las migraciones y luego corremos el servidor de Django
-CMD ["python", "manage.py", "runserver"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
